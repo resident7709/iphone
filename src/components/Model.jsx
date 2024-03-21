@@ -1,9 +1,9 @@
 import gsap from 'gsap';
 import * as THREE from 'three';
-import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
-import { Canvas } from '@react-three/fiber';
 import { View } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import React, { useRef, useState } from 'react';
 
 import ModelView from './ModelView';
 import { yellowImg } from '../utils';
@@ -20,12 +20,16 @@ const Model = () => {
   // camera control for the model view
   const cameraControlSmall = useRef();
   const cameraControlLarge = useRef();
+
   // model
   const small = useRef(new THREE.Group());
   const large = useRef(new THREE.Group());
+
   // rotation
   const [smallRotation, setSmallRotation] = useState(0);
   const [largeRotation, setLargeRotation] = useState(0);
+
+  const tl = gsap.timeline();
 
   useGSAP(() => {
     gsap.to('#heading', { y: 0, opacity: 1 });
@@ -73,6 +77,7 @@ const Model = () => {
           </div>
           <div className='mx-auto w-full'>
             <p className='text-sm font-light text-center mb-5'>{model.title}</p>
+
             <div className='flex-center'>
               <ul className='color-container'>
                 {models.map((item, i) => (
@@ -80,9 +85,11 @@ const Model = () => {
                     key={i}
                     className='w-6 h-6 rounded-full mx-2 cursor-pointer'
                     style={{ backgroundColor: item.color[0] }}
-                    onClick={() => setModel(item)}></li>
+                    onClick={() => setModel(item)}
+                  />
                 ))}
               </ul>
+
               <button className='size-btn-container'>
                 {sizes.map(({ label, value }) => (
                   <span
